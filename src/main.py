@@ -45,3 +45,5 @@ query = "What is 3 * 12?"
 result = llm_with_tools.invoke(query)
 print(result)
 print(result.tool_calls)
+
+#https://python.langchain.com/api_reference/core/utils/langchain_core.utils.function_calling.tool_example_to_messages.html 
