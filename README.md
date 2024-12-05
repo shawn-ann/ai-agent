@@ -13,6 +13,8 @@ Refer to https://hub.docker.com/r/ollama/ollama
 # 2. install langchain-ollama
 ```bash
 %pip install -U langchain-ollama
+%pip install langgraph
+
 ```
 Refer to https://python.langchain.com/docs/integrations/chat/ollama/
 
