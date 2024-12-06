@@ -14,6 +14,8 @@ Refer to https://hub.docker.com/r/ollama/ollama
 ```bash
 %pip install -U langchain-ollama
 %pip install langgraph
+# UI
+%pip install flask tk
 
 ```
 Refer to https://python.langchain.com/docs/integrations/chat/ollama/
