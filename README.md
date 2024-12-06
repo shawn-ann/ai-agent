@@ -36,3 +36,57 @@ cp .env.example .env
 docker compose up -d
 ```
 ### 2. access the Dify dashboard in your browser at http://localhost/install and start the initialization process.
+
+# chatui
+## 1. install hugging face chatui
+```bash
+# https://github.com/huggingface/chat-ui
+git clone https://github.com/huggingface/chat-ui
+cd chat-ui
+npm install    
+docker run --name mongodb -d -p 27017:27017 mongodb/mongodb-community-server   
+
+```
+## 2. update env file
+```
+
+### MongoDB ###
+MONGODB_URL=mongodb://localhost:27017 #your mongodb URL here, use chat-ui-db image if you don't want to set this
+MONGODB_DB_NAME=root
+MONGODB_DIRECT_CONNECTION=false
+
+MODELS=`[
+    {
+      "name": "llama/llama3.2",
+      "description": "Nous Research's latest Hermes 3 release in 8B size.",
+      "promptExamples": [
+        {
+          "title": "Write an email from bullet list",
+          "prompt": "As a restaurant owner, write a professional email to the supplier to get these products every week: \n\n- Wine (x10)\n- Eggs (x24)\n- Bread (x12)"
+        }, {
+          "title": "Code a snake game",
+          "prompt": "Code a basic snake game in python, give explanations for each step."
+        }, {
+          "title": "Assist in a task",
+          "prompt": "How do I make a delicious lemon cheesecake?"
+        }
+      ],
+      "endpoints": [{
+             "type" : "openai",
+             "baseURL": "http://localhost:11434/llama3.2",
+             "extraBody": {
+               "repetition_penalty": 1.2,
+               "top_k": 50,
+               "truncate": 1000
+             }
+           }]
+    }
+]`
+
+``` 
+
+## 3. Run the chatui
+```bash
+   
+npm run dev -- --open
+```
