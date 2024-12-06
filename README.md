@@ -1,6 +1,6 @@
 # ai-agent
-
-# 1. Install the ollama and llama 3.2
+## Ollama
+### 1. Install the ollama and llama 3.2
 ```bash
 docker pull ollama/ollama
 # Run ollama with CPU
@@ -10,7 +10,7 @@ docker exec -it ollama ollama run llama3.2
 ```
 Refer to https://hub.docker.com/r/ollama/ollama
 
-# 2. install langchain-ollama
+### 2. install langchain-ollama
 ```bash
 %pip install -U langchain-ollama
 %pip install langgraph
@@ -18,7 +18,19 @@ Refer to https://hub.docker.com/r/ollama/ollama
 ```
 Refer to https://python.langchain.com/docs/integrations/chat/ollama/
 
-# 3. Run the agent
+### 3. Run the agent
 ```bash
 %python -m ai_agent
 ```
+
+## Dify ecosystem
+https://github.com/langgenius/dify
+### 1. install dify
+```bash
+git clone https://github.com/langgenius/dify.git
+cd dify
+cd docker
+cp .env.example .env
+docker compose up -d
+```
+### 2. access the Dify dashboard in your browser at http://localhost/install and start the initialization process.
