@@ -3,6 +3,7 @@ import { readFile } from "fs/promises";
 
 async function main() {
 
+  // @ts-ignore
   const ollama = new Ollama();
 
   // Set the system prompt to prepare the model to receive a prompt and a schema and set some rules for the output.
@@ -27,7 +28,7 @@ async function main() {
   // Specific instructions for this task
   const prompt = `Review the source text and determine the 10 most important people to focus on. Then extract the name and title for those people. Output should be in JSON.\n\nSchema: \n${JSON.stringify(schema, null, 2)}\n\nSource Text:\n${textcontent}`
 
-  await ollama.setModel("neural-chat");
+  await ollama.setModel("llama3-groq-tool-use");
   ollama.setSystemPrompt(systemprompt);
 
   // setJSONFormat is the equivalent of setting 'format: json' in the API
