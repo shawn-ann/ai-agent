@@ -13,7 +13,74 @@
 假定我们提供了一个根据位置获取天气的函数并，当我们尝试与它交互时会自动决定是否调用函数，如果需要调用函数则返回参数及参数值。
 
 然后我们根据返回的结果调用函数并将函数的返回值再次提供给LLM，最后由LLM生成最终结果。
-img: ![Function Calling](https://cdn.openai.com/API/docs/images/function-calling-diagram-steps.png)
+![Function Calling](https://cdn.openai.com/API/docs/images/function-calling-diagram-steps.png)
+
+### 下面是ChatGPT官方的一个例子演示如何工作的
+```python
+import json
+from openai import OpenAI
+# 创建工具
+tools = [{
+    "type": "function",
+    "function": {
+        "name": "get_weather",
+        "description": "获取指定城市的天气",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "location": {
+                    "type": "string",
+                    "description": {"type": "string", "description": "城市名称"},
+                }
+            },
+            "required": [
+                "location"
+            ],
+            "additionalProperties": False
+        },
+        "strict": True
+    }
+}]
+
+def get_weather(location: str):
+    return "晴天"
+
+#创建LLM client
+client = OpenAI(
+)
+
+# 用户提问
+user_query = "北京今天天气如何？"
+messages = [{"role": "user", "content": user_query}]
+completion = client.chat.completions.create(
+    model="gpt-4o",
+    messages=messages,
+    tools=tools,
+)
+# 模型决定调用哪个函数，并返回函数内容和参数
+tool_call = completion.choices[0].message.tool_calls[0]
+args = json.loads(tool_call.function.arguments)
+
+# 我们手动执行函数
+result = get_weather(args["location"])
+
+# 将函数调用信息和结果添加到消息列表中
+messages.append(completion.choices[0].message)  # append model's function call message
+# 将执行结果添加到消息列表中
+messages.append({
+    "role": "tool",
+    "tool_call_id": tool_call.id,
+    "content": str(result)
+})
+# 将结果纳入其输出
+completion_2 = client.chat.completions.create(
+    model="gpt-4o",
+    messages=messages,
+    tools=tools,
+)
+print(completion_2.choices[0].message.content)
+```
+
 
 ## 代码示例
 
