@@ -108,7 +108,7 @@ print(completion_2.choices[0].message.content)
 ``` python
 # 创建LLM
 from langchain_openai import ChatOpenAI
-llm = ChatOpenAI(model="gpt-4o-mini", base_url="https://use.52apikey.cn/v1")
+llm = ChatOpenAI(model="gpt-4o-mini")
 
 # 定义LLM可以使用的函数（工具）
 from langchain_core.tools import tool
@@ -173,7 +173,7 @@ for chunk in agent_executor.stream(
 
 # 创建LLM
 from langchain_openai import ChatOpenAI
-llm = ChatOpenAI(model="gpt-4o-mini", base_url="https://use.52apikey.cn/v1")
+llm = ChatOpenAI(model="gpt-4o-mini")
 
 # 定义LLM可以使用的函数（工具）
 from langchain_community.agent_toolkits import FileManagementToolkit
