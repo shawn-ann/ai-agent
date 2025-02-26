@@ -2,7 +2,7 @@ from composio_openai import ComposioToolSet, App, Action
 from openai import OpenAI
 
 openai_client = OpenAI(base_url="https://use.52apikey.cn/v1")
-composio_toolset = ComposioToolSet(api_key="4ehcjm75jgs8lr8ombkfkh")  # Replace with your API key
+composio_toolset = ComposioToolSet(api_key="xxx")  # Replace with your API key
 
 tools = composio_toolset.get_tools(actions=[Action.GITHUB_STAR_A_REPOSITORY_FOR_THE_AUTHENTICATED_USER])
 
