@@ -114,25 +114,25 @@ llm = ChatOpenAI(model="gpt-4o-mini")
 from langchain_core.tools import tool
 @tool
 def search_temperature(location: str):
-"""Search temperature according to the location.
-Args:
-location: The location to search for temperature.
-"""
-if location == "大连":
-return 2
-return 21
+    """Search temperature according to the location.
+    Args:
+       location: The location to search for temperature.
+    """
+    if location == "大连":
+        return 2
+    return 21
 @tool
 def search_clothes(temperature: int):
-"""Search for clothes to wear according to the temperature.
-Args:
-temperature: The temperature to search for clothes.
-"""
-if (temperature < 10):
-return f"毛呢大衣."
-return f"T恤."
+    """Search for clothes to wear according to the temperature.
+    Args:
+         temperature: The temperature to search for clothes.
+    """
+    if (temperature < 10):
+        return f"毛呢大衣."
+    return f"T恤."
 tools = [search_temperature, search_clothes]
 
-# 创建Agent，使用LLM并指定tools
+# 创建Agent
 from langchain_core.messages import HumanMessage
 from langgraph.prebuilt import create_react_agent
 from langgraph.checkpoint.memory import MemorySaver
@@ -145,11 +145,10 @@ agent_executor = create_react_agent(llm, tools, prompt=prompt, checkpointer=chec
 # 运行Agent
 config = {"configurable": {"thread_id": 1}}
 for chunk in agent_executor.stream(
-{"messages": [HumanMessage(content="在大连我今天应该穿什么?")]}, config
+        {"messages": [HumanMessage(content="在大连我今天应该穿什么?")]}, config
 ):
-print(chunk)
-print("----")
-
+    print(chunk)
+    print("----")
 
 # 运行结果
 {'agent': {'messages': [AIMessage(content='', additional_kwargs={'tool_calls': [{'id': 'call_jWNKJFDYBKQzD9LCwLeynyWs', 'function': {'arguments': '{"location":"大连"}', 'name': 'search_temperature'}, 'type': 'function'}], 'refusal': None}, response_metadata={'token_usage': {'completion_tokens': 15, 'prompt_tokens': 123, 'total_tokens': 138, 'completion_tokens_details': {'accepted_prediction_tokens': 0, 'audio_tokens': 0, 'reasoning_tokens': 0, 'rejected_prediction_tokens': 0}, 'prompt_tokens_details': {'audio_tokens': 0, 'cached_tokens': 0}}, 'model_name': 'gpt-4o-mini', 'system_fingerprint': 'fp_b705f0c291', 'finish_reason': 'tool_calls', 'logprobs': None}, id='run-b7ef0ef6-406f-4e7e-bb95-de83a389dc50-0', tool_calls=[{'name': 'search_temperature', 'args': {'location': '大连'}, 'id': 'call_jWNKJFDYBKQzD9LCwLeynyWs', 'type': 'tool_call'}], usage_metadata={'input_tokens': 123, 'output_tokens': 15, 'total_tokens': 138, 'input_token_details': {'audio': 0, 'cache_read': 0}, 'output_token_details': {'audio': 0, 'reasoning': 0}})]}}
@@ -171,6 +170,7 @@ print("----")
 
 ```python
 
+
 # 创建LLM
 from langchain_openai import ChatOpenAI
 llm = ChatOpenAI(model="gpt-4o-mini")
@@ -182,11 +182,11 @@ import os
 current_directory = os.getcwd()
 working_directory = TemporaryDirectory()
 toolkit = FileManagementToolkit(
-root_dir=str(current_directory+"/temp")
+    root_dir=str(current_directory+"/temp")
 )  # If you don't provide a root_dir, operations will default to the current working directory
 tools = toolkit.get_tools()
 
-# 创建Agent，使用LLM并指定tools
+# 创建Agent
 from langchain_core.messages import HumanMessage
 from langgraph.prebuilt import create_react_agent
 from langgraph.checkpoint.memory import MemorySaver
@@ -199,13 +199,13 @@ agent_executor = create_react_agent(llm, tools, prompt=prompt, checkpointer=chec
 # 运行Agent
 config = {"configurable": {"thread_id": 15}}
 for chunk in agent_executor.stream(
-{"messages": [HumanMessage(content="""
-把下面这段话写入文件a.txt中：
-'今天天气真好！！'
-""")]}, config
+        {"messages": [HumanMessage(content="""
+        把下面这段话写入文件a.txt中：
+        '今天天气真好！！'
+        """)]}, config
 ):
-print(chunk)
-print("----")
+    print(chunk)
+    print("----")
 
 
 # 运行结果
@@ -222,19 +222,19 @@ print("----")
 Function Calling是早期ChatGPT的概念，在调用API的时候提供参数functions，但是在一次对话中只能调用一个函数，现在已经过时。
 ```python
 completion = client.chat.completions.create(
-model="gpt-4o",
-messages=[{"role": "user", "content": user_query}],
-functions=functions,
-function_call="auto"
+    model="gpt-4o",
+    messages=[{"role": "user", "content": user_query}],
+    functions=functions,
+    function_call="auto"
 )
 ```
 Tool Calling是Function calling的基础上进行增强，可以调用多个函数，同时不仅限于function，参数由functions改成了tools，不过官方文档的标题还是叫做Function calling。
 ```python
 completion = client.chat.completions.create(
-model="gpt-4o",
-messages=[{"role": "user", "content": user_query}],
-tools=tools,
-tool_choice="auto",
+    model="gpt-4o",
+    messages=[{"role": "user", "content": user_query}],
+    tools=tools,
+    tool_choice="auto",
 )
 ```
 
